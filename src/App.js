@@ -3,13 +3,14 @@
 import React from "react";
 import {
     createTheme,
-    styled,
+    // styled,
     ThemeProvider,
-    darken,
+    // darken,
 } from "@mui/material/styles";
 
 import GlobalStyles from "@mui/material/GlobalStyles";
 import Navbar from "./components/navbar";
+import PageRouter from "./components/pageRouter";
 
 const customTheme = createTheme({
     palette: {
@@ -30,6 +31,7 @@ function App() {
         <ThemeProvider theme={customTheme}>
             <GlobalStyles styles={globalCss} />
             <Navbar />
+            <PageRouter />
         </ThemeProvider>
     );
 }
