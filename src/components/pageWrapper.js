@@ -206,7 +206,6 @@ export default function Paperbase() {
                         sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
                     >
                         <PageRouter />
-                        <Content />
                     </Box>
                     <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
                         <Copyright />
