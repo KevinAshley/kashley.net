@@ -5,7 +5,5 @@
         "checkJs": true,
         "jsx": "react"
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "exclude": ["node_modules", "build", "package-lock.json"]
 }
