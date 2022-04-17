@@ -9,7 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
@@ -56,8 +56,10 @@ const itemCategory = {
     px: 3,
 };
 
-export default function Navigator(props) {
+const Navigator = (props) => {
     const { ...other } = props;
+    const location = useLocation();
+    const { pathname } = location;
 
     return (
         <Drawer variant="permanent" {...other}>
@@ -80,28 +82,25 @@ export default function Navigator(props) {
                                 {id}
                             </ListItemText>
                         </ListItem>
-                        {children.map(
-                            ({ label: childId, icon, route, active }) => {
-                                const Icon = icon;
-                                return (
-                                    <ListItem disablePadding key={childId}>
-                                        <ListItemButton
-                                            selected={active}
-                                            sx={item}
-                                            component={Link}
-                                            to={route}
-                                        >
-                                            <ListItemIcon>
-                                                <Icon />
-                                            </ListItemIcon>
-                                            <ListItemText>
-                                                {childId}
-                                            </ListItemText>
-                                        </ListItemButton>
-                                    </ListItem>
-                                );
-                            }
-                        )}
+                        {children.map(({ label: childId, icon, route }) => {
+                            const Icon = icon;
+                            const active = pathname === route;
+                            return (
+                                <ListItem disablePadding key={childId}>
+                                    <ListItemButton
+                                        selected={active}
+                                        sx={item}
+                                        component={Link}
+                                        to={route}
+                                    >
+                                        <ListItemIcon>
+                                            <Icon />
+                                        </ListItemIcon>
+                                        <ListItemText>{childId}</ListItemText>
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
 
                         <Divider sx={{ mt: 2 }} />
                     </Box>
@@ -109,4 +108,6 @@ export default function Navigator(props) {
             </List>
         </Drawer>
     );
-}
+};
+
+export default Navigator;
