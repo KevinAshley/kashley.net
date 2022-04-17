@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
@@ -20,32 +21,23 @@ import TimerIcon from "@mui/icons-material/Timer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PhonelinkSetupIcon from "@mui/icons-material/PhonelinkSetup";
 
+import { mainRoutes, portfolioRoutes } from "../routes";
+
 const categories = [
     {
-        id: "Build",
+        id: "Main",
         children: [
-            {
-                id: "Authentication",
-                icon: <PeopleIcon />,
-                active: true,
-            },
-            { id: "Database", icon: <DnsRoundedIcon /> },
-            { id: "Storage", icon: <PermMediaOutlinedIcon /> },
-            { id: "Hosting", icon: <PublicIcon /> },
-            { id: "Functions", icon: <SettingsEthernetIcon /> },
-            {
-                id: "Machine learning",
-                icon: <SettingsInputComponentIcon />,
-            },
+            // {
+            //     id: "Authentication",
+            //     icon: <PeopleIcon />,
+            //     active: true,
+            // },
+            ...mainRoutes,
         ],
     },
     {
-        id: "Quality",
-        children: [
-            { id: "Analytics", icon: <SettingsIcon /> },
-            { id: "Performance", icon: <TimerIcon /> },
-            { id: "Test Lab", icon: <PhonelinkSetupIcon /> },
-        ],
+        id: "Portfolio",
+        children: [...portfolioRoutes],
     },
 ];
 
@@ -78,14 +70,9 @@ export default function Navigator(props) {
                         color: "#fff",
                     }}
                 >
-                    Paperbase
+                    Kashley.net
                 </ListItem>
-                <ListItem sx={{ ...item, ...itemCategory }}>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText>Project Overview</ListItemText>
-                </ListItem>
+
                 {categories.map(({ id, children }) => (
                     <Box key={id} sx={{ bgcolor: "#101F33" }}>
                         <ListItem sx={{ py: 2, px: 3 }}>
@@ -93,14 +80,28 @@ export default function Navigator(props) {
                                 {id}
                             </ListItemText>
                         </ListItem>
-                        {children.map(({ id: childId, icon, active }) => (
-                            <ListItem disablePadding key={childId}>
-                                <ListItemButton selected={active} sx={item}>
-                                    <ListItemIcon>{icon}</ListItemIcon>
-                                    <ListItemText>{childId}</ListItemText>
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        {children.map(
+                            ({ label: childId, icon, route, active }) => {
+                                const Icon = icon;
+                                return (
+                                    <ListItem disablePadding key={childId}>
+                                        <ListItemButton
+                                            selected={active}
+                                            sx={item}
+                                            component={Link}
+                                            to={route}
+                                        >
+                                            <ListItemIcon>
+                                                <Icon />
+                                            </ListItemIcon>
+                                            <ListItemText>
+                                                {childId}
+                                            </ListItemText>
+                                        </ListItemButton>
+                                    </ListItem>
+                                );
+                            }
+                        )}
 
                         <Divider sx={{ mt: 2 }} />
                     </Box>
