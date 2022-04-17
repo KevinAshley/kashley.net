@@ -3,12 +3,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { companyName } from "../vars";
-import {
-    PageBand,
-    PageContainer,
-    PageRow,
-    PageCol,
-} from "../components/layout";
 
 const Home = () => {
     return (
@@ -17,15 +11,7 @@ const Home = () => {
                 <title>Home | {companyName}</title>
                 <meta name="description" content="Home Page" />
             </Helmet>
-            <PageBand>
-                <PageContainer>
-                    <PageRow>
-                        <PageCol xs={12}>
-                            <h1>Home</h1>
-                        </PageCol>
-                    </PageRow>
-                </PageContainer>
-            </PageBand>
+            <h1>Home TEST</h1>
         </div>
     );
 };

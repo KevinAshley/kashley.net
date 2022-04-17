@@ -10,13 +10,14 @@ import Link from "@mui/material/Link";
 import Navigator from "./navigator";
 import Content from "./content";
 import Header from "./header";
+import PageRouter from "./pageRouter";
 
 function Copyright() {
     return (
         <Typography variant="body2" color="text.secondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="/">
+                Kevin Ashley
             </Link>{" "}
             {new Date().getFullYear()}.
         </Typography>
@@ -204,6 +205,7 @@ export default function Paperbase() {
                         component="main"
                         sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
                     >
+                        <PageRouter />
                         <Content />
                     </Box>
                     <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
