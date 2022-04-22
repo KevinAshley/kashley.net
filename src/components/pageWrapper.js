@@ -203,7 +203,7 @@ export default function Paperbase() {
                     <Header onDrawerToggle={handleDrawerToggle} />
                     <Box
                         component="main"
-                        sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
+                        sx={{ flex: 1, py: 6, px: 2, bgcolor: "#eaeff1" }}
                     >
                         <PageRouter />
                     </Box>
