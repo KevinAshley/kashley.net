@@ -9,6 +9,7 @@ const CricketScoreboard = loadable(
     () => import("./pages/cricketScoreboard"),
     loadableOptions
 );
+const Stocks = loadable(() => import("./pages/stocks"), loadableOptions);
 
 export const mainRoutes = [
     {
@@ -36,6 +37,12 @@ export const portfolioRoutes = [
         label: "Cricket Scoreboard",
         component: CricketScoreboard,
         route: "/cricket-scoreboard/",
+        icon: HomeIcon,
+    },
+    {
+        label: "Stocks",
+        component: Stocks,
+        route: "/stocks/",
         icon: HomeIcon,
     },
 ];
