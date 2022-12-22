@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
@@ -18,10 +18,43 @@ const defaultOptions = [
 ];
 
 const Stocks = () => {
-    const [selected, setSelected] = useState();
-    const handleChange = (params) => {
-        console.log(params);
+    const [selected, setSelected] = useState("");
+    const [processing, setProcessing] = useState(false);
+
+    const handleChange = (e) => {
+        setSelected(e.target.value);
     };
+
+    const requestTheData = async (ticker) => {
+        setProcessing(true);
+        console.log("request the data for ", ticker);
+        var requestUrl =
+            "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY" +
+            // "&outputsize=full" +
+            "&symbol=" +
+            ticker +
+            "&apikey=BF9KJPW0QTI88ECE";
+        const response = await fetch(requestUrl, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        });
+        console.log("got a response");
+        const responseData = await response.json();
+        console.log("got response data", responseData);
+        if (!responseData) {
+            console.log("error there was a problem");
+        }
+        const innerData = await responseData["Time Series (Daily)"];
+    };
+
+    useEffect(() => {
+        if (selected) {
+            requestTheData(selected);
+        }
+    }, [selected]);
     return (
         <div>
             <Helmet>
