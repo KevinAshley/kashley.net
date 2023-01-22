@@ -21,7 +21,9 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "serve": "serve -s build"
+        "serve": "serve -s build",
+        "firebase": "firebase",
+        "deploy": "firebase deploy"
     },
     "devDependencies": {
         "@babel/cli": "7.12.7",
@@ -41,7 +43,8 @@
         "eslint-plugin-import": "^2.20.2",
         "eslint-plugin-jsx-a11y": "^6.3.1",
         "eslint-plugin-react": "^7.21.4",
-        "eslint-plugin-react-hooks": "^4.0.0"
+        "eslint-plugin-react-hooks": "^4.0.0",
+        "firebase-tools": "^9.14.0"
     },
     "eslintConfig": {
         "extends": [
