@@ -3,13 +3,12 @@
 import { loadableOptions, handleImportError } from "./utils";
 import loadable from "@loadable/component";
 import HomeIcon from "@mui/icons-material/Home";
+import MailIcon from "@mui/icons-material/Mail";
 
 const Home = loadable(() => import("./pages/home"), loadableOptions);
-const CricketScoreboard = loadable(
-    () => import("./pages/cricketScoreboard"),
-    loadableOptions
-);
+const CricketScoreboard = loadable(() => import("./pages/cricketScoreboard"), loadableOptions);
 const Stocks = loadable(() => import("./pages/stocks"), loadableOptions);
+const Calculator = loadable(() => import("./pages/calculator"), loadableOptions);
 
 export const mainRoutes = [
     {
@@ -22,15 +21,15 @@ export const mainRoutes = [
         label: "Contact Me",
         component: Home,
         route: "/contact-me/",
-        icon: HomeIcon,
+        icon: MailIcon,
     },
 ];
 
 export const portfolioRoutes = [
     {
-        label: "Test",
-        component: Home,
-        route: "/test/",
+        label: "Calculator",
+        component: Calculator,
+        route: "/Calculator/",
         icon: HomeIcon,
     },
     {

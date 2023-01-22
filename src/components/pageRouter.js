@@ -10,14 +10,14 @@ const PageRouter = () => {
         <Fragment>
             <Routes>
                 {routes.map((item, index) => {
-                    const { component } = item;
+                    const { component, label } = item;
                     const PageComponent = component;
                     return (
                         <Route
                             exact
                             key={index}
                             path={item.route}
-                            element={<PageComponent />}
+                            element={<PageComponent {...{ label }} />}
                         />
                     );
                 })}
