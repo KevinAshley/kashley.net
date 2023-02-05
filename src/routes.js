@@ -29,7 +29,7 @@ export const portfolioRoutes = [
     {
         label: "Calculator",
         component: Calculator,
-        route: "/Calculator/",
+        route: "/calculator/",
         icon: HomeIcon,
     },
     {
