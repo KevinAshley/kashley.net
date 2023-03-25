@@ -18,12 +18,12 @@ export const mainRoutes = [
         route: "/",
         icon: HomeIcon,
     },
-    {
-        label: "Contact Me",
-        component: Home,
-        route: "/contact-me/",
-        icon: MailIcon,
-    },
+    // {
+    //     label: "Contact Me",
+    //     component: Home,
+    //     route: "/contact-me/",
+    //     icon: MailIcon,
+    // },
 ];
 
 export const portfolioRoutes = [
