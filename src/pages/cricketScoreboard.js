@@ -125,12 +125,12 @@ const useButtonGroupStyles = createUseStyles({
 
 const CustomButtonGroup = (props) => {
     const classes = useButtonGroupStyles();
-    const { color, tally, itemIndex, value, player, updateTally } = props;
-    const itemTally = tally[itemIndex];
-    const thisPlayersItemTally = itemTally[player];
+    const { color, itemIndex, value, player, playerTally, updateTally, isClosedOut } = props;
+    // const itemTally = tally[itemIndex];
+    // const thisPlayersItemTally = itemTally[player];
 
     const handleSubtract = () => {
-        let newValue = thisPlayersItemTally - 1;
+        let newValue = playerTally - 1;
         if (newValue < 0) {
             newValue = 0;
         }
@@ -141,7 +141,7 @@ const CustomButtonGroup = (props) => {
         });
     };
     const handleAddition = () => {
-        let newValue = thisPlayersItemTally + 1;
+        let newValue = playerTally + 1;
         updateTally({
             player,
             itemIndex,
@@ -151,25 +151,30 @@ const CustomButtonGroup = (props) => {
     return (
         <div
             style={{
-                margin: "0.25rem 0",
+                margin: "0.5rem 0",
             }}
         >
             <ButtonGroup variant="contained">
                 <Button
                     {...{ color }}
                     onClick={handleSubtract}
-                    disabled={thisPlayersItemTally === 0}
+                    disabled={playerTally === 0}
                     className={classes.outerButton}
                 >
                     <RemoveIcon fontSize="small" />
                 </Button>
                 <Button disabled className={classes.middleButton}>
                     <TallyDisplayBlock
-                        thisTally={thisPlayersItemTally}
-                        {...{ value, thisTally: thisPlayersItemTally }}
+                        thisTally={playerTally}
+                        {...{ value, thisTally: playerTally }}
                     />
                 </Button>
-                <Button {...{ color }} onClick={handleAddition} className={classes.outerButton}>
+                <Button
+                    {...{ color }}
+                    onClick={handleAddition}
+                    disabled={isClosedOut}
+                    className={classes.outerButton}
+                >
                     <AddIcon fontSize="small" />
                 </Button>
             </ButtonGroup>
@@ -181,13 +186,28 @@ const useNumberStatusStyles = createUseStyles({
     status: {
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
+    },
+    closed: {
+        opacity: 0.5,
+    },
+    crossedOut: {
+        transform: "rotateZ(90deg)",
+        position: "absolute",
+        color: "#c10000",
+        fontSize: "1.5rem",
     },
 });
 
 const NumberStatus = (props) => {
     const classes = useNumberStatusStyles();
-    const { label } = props;
-    return <div className={classes.status}>{label}</div>;
+    const { label, isClosedOut } = props;
+    return (
+        <div className={[classes.status, isClosedOut ? classes.closed : ""].join(" ")}>
+            {label}
+            {isClosedOut && <div className={classes.crossedOut}>|</div>}
+        </div>
+    );
 };
 
 const useStyles = createUseStyles({
@@ -228,16 +248,34 @@ const CricketScoreboard = () => {
                 </div>
                 {items.map((item, itemIndex) => {
                     const { value } = item;
+                    const itemTally = tally[itemIndex];
+                    const playerOneTally = itemTally["playerOne"];
+                    const playerTwoTally = itemTally["playerTwo"];
+                    const isClosedOut = playerOneTally >= 3 && playerTwoTally >= 3;
                     return (
                         <div key={itemIndex} className={classes.row}>
                             <CustomButtonGroup
                                 color="primary"
-                                {...{ value, tally, itemIndex, updateTally, player: "playerOne" }}
+                                {...{
+                                    value,
+                                    playerTally: playerOneTally,
+                                    itemIndex,
+                                    updateTally,
+                                    player: "playerOne",
+                                    isClosedOut,
+                                }}
                             />
-                            <NumberStatus label={item.label} />
+                            <NumberStatus label={item.label} {...{ isClosedOut }} />
                             <CustomButtonGroup
                                 color="secondary"
-                                {...{ value, tally, itemIndex, updateTally, player: "playerTwo" }}
+                                {...{
+                                    value,
+                                    playerTally: playerTwoTally,
+                                    itemIndex,
+                                    updateTally,
+                                    player: "playerTwo",
+                                    isClosedOut,
+                                }}
                             />
                         </div>
                     );
