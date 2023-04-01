@@ -29,14 +29,23 @@ const numKeysArray = new Array(9).fill(0);
 const Home = (props) => {
     const { label } = props;
     const classes = useStyles();
-    const [total, setTotal] = useState(0);
-    const [operator, setOperator] = useState();
-    const [operand, setOperand] = useState();
+    const [total, setTotal] = useState("0");
+    const [operator, setOperator] = useState("");
+    const [operand, setOperand] = useState("");
 
     const handleNumberPress = (num) => {
         let newNumber = operator
-            ? Number((operand || 0).toString() + num.toString())
-            : Number(total.toString() + num.toString());
+            ? (operand || 0).toString() + num.toString()
+            : total.toString() + num.toString();
+        while (
+            newNumber !== "0" &&
+            newNumber.substring(0, 1) === "0" &&
+            newNumber.substring(0, 2) !== "0."
+        ) {
+            newNumber = newNumber.substring(1);
+        }
+
+        /// DO NOT ALLOW MORE THAN ONE DECIMAL
         if (operator) {
             setOperand(newNumber);
         } else {
@@ -49,7 +58,7 @@ const Home = (props) => {
     };
 
     const handleClear = () => {
-        setTotal(0);
+        setTotal("0");
         setOperand(null);
         setOperator(null);
     };
@@ -65,7 +74,7 @@ const Home = (props) => {
         } else if (operator === "/") {
             newTotal = Number(total) / Number(operand);
         }
-        setTotal(newTotal);
+        setTotal(newTotal.toString());
         setOperator(null);
         setOperand(null);
     };
@@ -82,7 +91,7 @@ const Home = (props) => {
 
             <Paper className={classes.paper}>
                 <OutlinedInput
-                    type="number"
+                    // type="number"
                     fullWidth
                     disabled
                     value={operand ? operand : total}
@@ -111,7 +120,11 @@ const Home = (props) => {
                                 </Button>
                             </Grid>
                             <Grid item xs={4}>
-                                <Button variant="contained" fullWidth>
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    onClick={() => handleNumberPress(".")}
+                                >
                                     .
                                 </Button>
                             </Grid>
