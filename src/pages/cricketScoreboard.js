@@ -7,6 +7,10 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { createUseStyles } from "react-jss";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import CloseIcon from "@mui/icons-material/Close";
+import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 
 const items = [
     {
@@ -46,9 +50,76 @@ const startingTallyState = items.map(() => {
     };
 });
 
+const useTallyDisplayStyles = createUseStyles({
+    iconsWrapper: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    rightSlash: {
+        position: "absolute",
+        fontSize: "1.5rem",
+        lineHeight: 0,
+        transform: "rotateZ(45deg)",
+    },
+    leftSlash: {
+        position: "absolute",
+        fontSize: "1.5rem",
+        lineHeight: 0,
+        transform: "rotateZ(-45deg)",
+    },
+    circle: {
+        fontSize: "1.5rem",
+        lineHeight: 0,
+    },
+});
+
+const TallyDisplayBlock = (props) => {
+    const classes = useTallyDisplayStyles();
+    const { thisTally, value } = props;
+    if (thisTally === 0) {
+        return "";
+    } else if (thisTally === 1) {
+        return (
+            <div className={classes.iconsWrapper}>
+                <div className={classes.rightSlash}>|</div>
+            </div>
+        );
+    } else if (thisTally === 2) {
+        return (
+            <div className={classes.iconsWrapper}>
+                <div className={classes.rightSlash}>|</div>
+                <div className={classes.leftSlash}>|</div>
+            </div>
+        );
+    } else if (thisTally === 3) {
+        return (
+            <div className={classes.iconsWrapper}>
+                <div className={classes.rightSlash}>|</div>
+                <div className={classes.leftSlash}>|</div>
+                <div className={classes.circle}>
+                    <PanoramaFishEyeIcon fontSize="small" />
+                </div>
+            </div>
+        );
+    } else if (thisTally > 3) {
+        return "+" + ((thisTally - 3) * value).toString();
+    }
+    return thisTally;
+};
+
 const useButtonGroupStyles = createUseStyles({
     middleButton: {
         minWidth: "50px",
+        minHeight: "40px",
+        paddingLeft: "5px !important",
+        paddingRight: "5px !important",
+        color: "#6f6f6f !important",
+    },
+    outerButton: {
+        minWidth: "40px !important",
+        paddingLeft: "5px !important",
+        paddingRight: "5px !important",
     },
 });
 
@@ -84,14 +155,22 @@ const CustomButtonGroup = (props) => {
             }}
         >
             <ButtonGroup variant="contained">
-                <Button {...{ color }} onClick={handleSubtract}>
-                    -
+                <Button
+                    {...{ color }}
+                    onClick={handleSubtract}
+                    disabled={thisPlayersItemTally === 0}
+                    className={classes.outerButton}
+                >
+                    <RemoveIcon fontSize="small" />
                 </Button>
                 <Button disabled className={classes.middleButton}>
-                    {thisPlayersItemTally}
+                    <TallyDisplayBlock
+                        thisTally={thisPlayersItemTally}
+                        {...{ value, thisTally: thisPlayersItemTally }}
+                    />
                 </Button>
-                <Button {...{ color }} onClick={handleAddition}>
-                    +
+                <Button {...{ color }} onClick={handleAddition} className={classes.outerButton}>
+                    <AddIcon fontSize="small" />
                 </Button>
             </ButtonGroup>
         </div>
