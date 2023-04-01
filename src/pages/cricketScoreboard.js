@@ -9,8 +9,13 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { createUseStyles } from "react-jss";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import CloseIcon from "@mui/icons-material/Close";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const scoreboardRow = [
     {
@@ -213,13 +218,30 @@ const useStyles = createUseStyles({
         width: "100%",
         justifyContent: "space-between",
     },
+    resetContainer: {
+        textAlign: "center",
+        marginTop: "2rem",
+    },
 });
 
 const players = ["playerOne", "playerTwo"];
 
 const CricketScoreboard = () => {
     const classes = useStyles();
-    const [tally, setTally] = useState(startingTallyState);
+    const [tally, setTally] = useState(JSON.parse(JSON.stringify(startingTallyState)));
+    const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
+    const handleClickOpen = () => {
+        setResetDialogIsOpen(true);
+    };
+    const handleClose = () => {
+        setResetDialogIsOpen(false);
+    };
+
+    const handleResetAndClose = () => {
+        setTally(JSON.parse(JSON.stringify(startingTallyState)));
+        setResetDialogIsOpen(false);
+    };
+
     const updateTally = (params) => {
         const { player, itemIndex, newValue } = params;
         const newTally = [...tally];
@@ -298,6 +320,26 @@ const CricketScoreboard = () => {
                     })}
                 </div>
             </Paper>
+            <div className={classes.resetContainer}>
+                <Button variant="outlined" color="error" onClick={handleClickOpen}>
+                    Reset Scoreboard
+                </Button>
+            </div>
+
+            <Dialog open={resetDialogIsOpen} onClose={handleClose}>
+                <DialogTitle>Confirmation</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to reset the scoreboard?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleResetAndClose} variant="contained">
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
