@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
@@ -39,8 +39,44 @@ const items = [
     },
 ];
 
+const startingTallyState = items.map(() => {
+    return {
+        playerOne: 0,
+        playerTwo: 0,
+    };
+});
+
+const useButtonGroupStyles = createUseStyles({
+    middleButton: {
+        minWidth: "50px",
+    },
+});
+
 const CustomButtonGroup = (props) => {
-    const { color } = props;
+    const classes = useButtonGroupStyles();
+    const { color, tally, itemIndex, value, player, updateTally } = props;
+    const itemTally = tally[itemIndex];
+    const thisPlayersItemTally = itemTally[player];
+
+    const handleSubtract = () => {
+        let newValue = thisPlayersItemTally - 1;
+        if (newValue < 0) {
+            newValue = 0;
+        }
+        updateTally({
+            player,
+            itemIndex,
+            newValue,
+        });
+    };
+    const handleAddition = () => {
+        let newValue = thisPlayersItemTally + 1;
+        updateTally({
+            player,
+            itemIndex,
+            newValue,
+        });
+    };
     return (
         <div
             style={{
@@ -48,9 +84,15 @@ const CustomButtonGroup = (props) => {
             }}
         >
             <ButtonGroup variant="contained">
-                <Button {...{ color }}>-</Button>
-                <Button disabled>X</Button>
-                <Button {...{ color }}>+</Button>
+                <Button {...{ color }} onClick={handleSubtract}>
+                    -
+                </Button>
+                <Button disabled className={classes.middleButton}>
+                    {thisPlayersItemTally}
+                </Button>
+                <Button {...{ color }} onClick={handleAddition}>
+                    +
+                </Button>
             </ButtonGroup>
         </div>
     );
@@ -79,6 +121,14 @@ const useStyles = createUseStyles({
 
 const CricketScoreboard = () => {
     const classes = useStyles();
+    const [tally, setTally] = useState(startingTallyState);
+    const updateTally = (params) => {
+        const { player, itemIndex, newValue } = params;
+        const newTally = [...tally];
+        newTally[itemIndex][player] = newValue;
+        setTally(newTally);
+    };
+
     return (
         <div>
             <Helmet>
@@ -87,7 +137,7 @@ const CricketScoreboard = () => {
             </Helmet>
             <Paper
                 sx={{
-                    maxWidth: 500,
+                    maxWidth: 400,
                     margin: "auto",
                     overflow: "hidden",
                     padding: "2rem 1rem",
@@ -97,12 +147,19 @@ const CricketScoreboard = () => {
                     <div>Player1</div>
                     <div>Player2</div>
                 </div>
-                {items.map((item, itemKey) => {
+                {items.map((item, itemIndex) => {
+                    const { value } = item;
                     return (
-                        <div key={itemKey} className={classes.row}>
-                            <CustomButtonGroup color="primary" />
+                        <div key={itemIndex} className={classes.row}>
+                            <CustomButtonGroup
+                                color="primary"
+                                {...{ value, tally, itemIndex, updateTally, player: "playerOne" }}
+                            />
                             <NumberStatus label={item.label} />
-                            <CustomButtonGroup color="secondary" />
+                            <CustomButtonGroup
+                                color="secondary"
+                                {...{ value, tally, itemIndex, updateTally, player: "playerTwo" }}
+                            />
                         </div>
                     );
                 })}
