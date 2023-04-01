@@ -33,12 +33,12 @@ export const portfolioRoutes = [
         route: "/calculator/",
         icon: CalculateIcon,
     },
-    // {
-    //     label: "Cricket Scoreboard",
-    //     component: CricketScoreboard,
-    //     route: "/cricket-scoreboard/",
-    //     icon: HomeIcon,
-    // },
+    {
+        label: "Cricket Scoreboard",
+        component: CricketScoreboard,
+        route: "/cricket-scoreboard/",
+        icon: HomeIcon,
+    },
     // {
     //     label: "Stocks",
     //     component: Stocks,

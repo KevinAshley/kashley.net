@@ -6,6 +6,7 @@ import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { createUseStyles } from "react-jss";
 
 const items = [
     {
@@ -38,7 +39,46 @@ const items = [
     },
 ];
 
+const CustomButtonGroup = (props) => {
+    const { color } = props;
+    return (
+        <div
+            style={{
+                margin: "0.25rem 0",
+            }}
+        >
+            <ButtonGroup variant="contained">
+                <Button {...{ color }}>-</Button>
+                <Button disabled>X</Button>
+                <Button {...{ color }}>+</Button>
+            </ButtonGroup>
+        </div>
+    );
+};
+
+const useNumberStatusStyles = createUseStyles({
+    status: {
+        display: "flex",
+        alignItems: "center",
+    },
+});
+
+const NumberStatus = (props) => {
+    const classes = useNumberStatusStyles();
+    const { label } = props;
+    return <div className={classes.status}>{label}</div>;
+};
+
+const useStyles = createUseStyles({
+    row: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-between",
+    },
+});
+
 const CricketScoreboard = () => {
+    const classes = useStyles();
     return (
         <div>
             <Helmet>
@@ -47,42 +87,31 @@ const CricketScoreboard = () => {
             </Helmet>
             <Paper
                 sx={{
-                    maxWidth: 936,
+                    maxWidth: 500,
                     margin: "auto",
                     overflow: "hidden",
                     padding: "2rem 1rem",
                 }}
             >
-                <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                >
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>Player1</div>
                     <div>Player2</div>
                 </div>
                 {items.map((item, itemKey) => {
                     return (
-                        <div
-                            key={itemKey}
-                            style={{
-                                display: "flex",
-                                width: "100%",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <div style={{ margin: "0.25rem 0" }}>
-                                <ButtonGroup variant="contained">
-                                    <Button>1</Button>
-                                    <Button>2</Button>
-                                    <Button>3</Button>
-                                </ButtonGroup>
-                            </div>
-                            <div>{item.label}</div>
-                            <div>Player2</div>
+                        <div key={itemKey} className={classes.row}>
+                            <CustomButtonGroup color="primary" />
+                            <NumberStatus label={item.label} />
+                            <CustomButtonGroup color="secondary" />
                         </div>
                     );
                 })}
+                <hr />
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <div>0</div>
+                    <div>0</div>
+                </div>
             </Paper>
-            <div id="activity-log">Activity goes here...</div>
         </div>
     );
 };
