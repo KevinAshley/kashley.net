@@ -8,11 +8,21 @@ import Paper from "@mui/material/Paper";
 
 const Home = () => {
     return (
-        <div>
+        <div
+            style={{
+                color: "red",
+                backgroundImage: 'url("/images/pexels-photo-12027143.jpeg")',
+                width: "100%",
+                height: "100%",
+                backgroundSize: "cover",
+                padding: "2rem",
+            }}
+        >
             <Helmet>
                 <title>Home | {companyName}</title>
                 <meta name="description" content="Home Page" />
             </Helmet>
+
             <Paper
                 sx={{
                     maxWidth: 936,
@@ -22,8 +32,9 @@ const Home = () => {
                     textAlign: "center",
                 }}
             >
-                <h1>Welcome to Kashley.net</h1>
-                <p>This site is owned and operated by Kevin Ashley.</p>
+                <h1>Welcome!</h1>
+                <p>This website was built with React.js and the Material UI components library.</p>
+                <p>- Kevin Ashley.</p>
             </Paper>
         </div>
     );
