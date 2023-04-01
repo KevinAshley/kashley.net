@@ -12,7 +12,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 
-const items = [
+const scoreboardRow = [
     {
         label: "20",
         value: 20,
@@ -43,7 +43,7 @@ const items = [
     },
 ];
 
-const startingTallyState = items.map(() => {
+const startingTallyState = scoreboardRow.map(() => {
     return {
         playerOne: 0,
         playerTwo: 0,
@@ -76,7 +76,7 @@ const useTallyDisplayStyles = createUseStyles({
 
 const TallyDisplayBlock = (props) => {
     const classes = useTallyDisplayStyles();
-    const { thisTally, value } = props;
+    const { thisTally } = props;
     if (thisTally === 0) {
         return "";
     } else if (thisTally === 1) {
@@ -103,7 +103,7 @@ const TallyDisplayBlock = (props) => {
             </div>
         );
     } else if (thisTally > 3) {
-        return "+" + ((thisTally - 3) * value).toString();
+        return "+" + (thisTally - 3).toString();
     }
     return thisTally;
 };
@@ -125,7 +125,7 @@ const useButtonGroupStyles = createUseStyles({
 
 const CustomButtonGroup = (props) => {
     const classes = useButtonGroupStyles();
-    const { color, itemIndex, value, player, playerTally, updateTally, isClosedOut } = props;
+    const { color, itemIndex, player, playerTally, updateTally, isClosedOut } = props;
     // const itemTally = tally[itemIndex];
     // const thisPlayersItemTally = itemTally[player];
 
@@ -164,10 +164,7 @@ const CustomButtonGroup = (props) => {
                     <RemoveIcon fontSize="small" />
                 </Button>
                 <Button disabled className={classes.middleButton}>
-                    <TallyDisplayBlock
-                        thisTally={playerTally}
-                        {...{ value, thisTally: playerTally }}
-                    />
+                    <TallyDisplayBlock thisTally={playerTally} {...{ thisTally: playerTally }} />
                 </Button>
                 <Button
                     {...{ color }}
@@ -218,6 +215,8 @@ const useStyles = createUseStyles({
     },
 });
 
+const players = ["playerOne", "playerTwo"];
+
 const CricketScoreboard = () => {
     const classes = useStyles();
     const [tally, setTally] = useState(startingTallyState);
@@ -227,6 +226,19 @@ const CricketScoreboard = () => {
         newTally[itemIndex][player] = newValue;
         setTally(newTally);
     };
+
+    let playerScores = {
+        playerOne: 0,
+        playerTwo: 0,
+    };
+    tally.forEach((item, itemIndex) => {
+        const rowValue = scoreboardRow[itemIndex].value;
+        players.forEach((thisPlayer) => {
+            if (item[thisPlayer] > 3) {
+                playerScores[thisPlayer] += (item[thisPlayer] - 3) * rowValue;
+            }
+        });
+    });
 
     return (
         <div>
@@ -246,35 +258,34 @@ const CricketScoreboard = () => {
                     <div>Player1</div>
                     <div>Player2</div>
                 </div>
-                {items.map((item, itemIndex) => {
-                    const { value } = item;
+                <hr />
+                {scoreboardRow.map((row, itemIndex) => {
                     const itemTally = tally[itemIndex];
                     const playerOneTally = itemTally["playerOne"];
                     const playerTwoTally = itemTally["playerTwo"];
                     const isClosedOut = playerOneTally >= 3 && playerTwoTally >= 3;
+                    const commonProps = {
+                        itemIndex,
+                        updateTally,
+                        isClosedOut,
+                    };
                     return (
                         <div key={itemIndex} className={classes.row}>
                             <CustomButtonGroup
                                 color="primary"
                                 {...{
-                                    value,
                                     playerTally: playerOneTally,
-                                    itemIndex,
-                                    updateTally,
                                     player: "playerOne",
-                                    isClosedOut,
+                                    ...commonProps,
                                 }}
                             />
-                            <NumberStatus label={item.label} {...{ isClosedOut }} />
+                            <NumberStatus label={row.label} {...{ isClosedOut }} />
                             <CustomButtonGroup
                                 color="secondary"
                                 {...{
-                                    value,
                                     playerTally: playerTwoTally,
-                                    itemIndex,
-                                    updateTally,
                                     player: "playerTwo",
-                                    isClosedOut,
+                                    ...commonProps,
                                 }}
                             />
                         </div>
@@ -282,8 +293,9 @@ const CricketScoreboard = () => {
                 })}
                 <hr />
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>0</div>
-                    <div>0</div>
+                    {players.map((thisPlayer, index) => {
+                        return <div key={index}>{playerScores[thisPlayer]}</div>;
+                    })}
                 </div>
             </Paper>
         </div>
