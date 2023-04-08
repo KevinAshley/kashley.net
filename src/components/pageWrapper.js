@@ -12,6 +12,7 @@ import Header from "./header";
 import PageRouter from "./pageRouter";
 import { useLocation } from "react-router-dom";
 import { theme as globalTheme } from "./themeProvider";
+import PageTitle from "./pageTitle";
 
 function Copyright() {
     return (
@@ -73,6 +74,7 @@ export default function Paperbase() {
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <Header onDrawerToggle={handleDrawerToggle} />
                 <Box component="main" sx={mainStyles}>
+                    {!isHomepage && <PageTitle />}
                     <PageRouter />
                 </Box>
                 <Box component="footer" sx={useFooterStyles}>

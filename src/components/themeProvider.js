@@ -12,6 +12,9 @@ let baseTheme = createTheme({
         },
     },
     typography: {
+        h1: {
+            fontSize: "2rem",
+        },
         h5: {
             fontWeight: 500,
             fontSize: 26,
