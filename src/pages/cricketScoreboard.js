@@ -6,11 +6,10 @@ import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { createUseStyles } from "react-jss";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
-
+import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -55,7 +54,7 @@ const startingTallyState = scoreboardRow.map(() => {
     };
 });
 
-const useTallyDisplayStyles = createUseStyles({
+const tallyDisplayStyles = {
     iconsWrapper: {
         display: "flex",
         alignItems: "center",
@@ -77,35 +76,34 @@ const useTallyDisplayStyles = createUseStyles({
         fontSize: "1.5rem",
         lineHeight: 0,
     },
-});
+};
 
 const TallyDisplayBlock = (props) => {
-    const classes = useTallyDisplayStyles();
     const { thisTally } = props;
     if (thisTally === 0) {
         return "";
     } else if (thisTally === 1) {
         return (
-            <div className={classes.iconsWrapper}>
-                <div className={classes.rightSlash}>|</div>
-            </div>
+            <Box sx={tallyDisplayStyles.iconsWrapper}>
+                <Box sx={tallyDisplayStyles.rightSlash}>|</Box>
+            </Box>
         );
     } else if (thisTally === 2) {
         return (
-            <div className={classes.iconsWrapper}>
-                <div className={classes.rightSlash}>|</div>
-                <div className={classes.leftSlash}>|</div>
-            </div>
+            <Box sx={tallyDisplayStyles.iconsWrapper}>
+                <Box sx={tallyDisplayStyles.rightSlash}>|</Box>
+                <Box sx={tallyDisplayStyles.leftSlash}>|</Box>
+            </Box>
         );
     } else if (thisTally === 3) {
         return (
-            <div className={classes.iconsWrapper}>
-                <div className={classes.rightSlash}>|</div>
-                <div className={classes.leftSlash}>|</div>
-                <div className={classes.circle}>
+            <Box sx={tallyDisplayStyles.iconsWrapper}>
+                <Box sx={tallyDisplayStyles.rightSlash}>|</Box>
+                <Box sx={tallyDisplayStyles.leftSlash}>|</Box>
+                <Box sx={tallyDisplayStyles.circle}>
                     <PanoramaFishEyeIcon fontSize="small" />
-                </div>
-            </div>
+                </Box>
+            </Box>
         );
     } else if (thisTally > 3) {
         return "+" + (thisTally - 3).toString();
@@ -113,7 +111,7 @@ const TallyDisplayBlock = (props) => {
     return thisTally;
 };
 
-const useButtonGroupStyles = createUseStyles({
+const buttonGroupStyles = {
     middleButton: {
         minWidth: "50px",
         minHeight: "40px",
@@ -126,10 +124,9 @@ const useButtonGroupStyles = createUseStyles({
         paddingLeft: "5px !important",
         paddingRight: "5px !important",
     },
-});
+};
 
 const CustomButtonGroup = (props) => {
-    const classes = useButtonGroupStyles();
     const { color, itemIndex, player, playerTally, updateTally, isClosedOut } = props;
     // const itemTally = tally[itemIndex];
     // const thisPlayersItemTally = itemTally[player];
@@ -164,18 +161,18 @@ const CustomButtonGroup = (props) => {
                     {...{ color }}
                     onClick={handleSubtract}
                     disabled={playerTally === 0}
-                    className={classes.outerButton}
+                    sx={buttonGroupStyles.outerButton}
                 >
                     <RemoveIcon fontSize="small" />
                 </Button>
-                <Button disabled className={classes.middleButton}>
+                <Button disabled sx={buttonGroupStyles.middleButton}>
                     <TallyDisplayBlock thisTally={playerTally} {...{ thisTally: playerTally }} />
                 </Button>
                 <Button
                     {...{ color }}
                     onClick={handleAddition}
                     disabled={isClosedOut}
-                    className={classes.outerButton}
+                    sx={buttonGroupStyles.outerButton}
                 >
                     <AddIcon fontSize="small" />
                 </Button>
@@ -184,7 +181,7 @@ const CustomButtonGroup = (props) => {
     );
 };
 
-const useNumberStatusStyles = createUseStyles({
+const numberStatusStyles = {
     status: {
         display: "flex",
         alignItems: "center",
@@ -199,20 +196,25 @@ const useNumberStatusStyles = createUseStyles({
         color: "#c10000",
         fontSize: "1.5rem",
     },
-});
+};
 
 const NumberStatus = (props) => {
-    const classes = useNumberStatusStyles();
     const { label, isClosedOut } = props;
+    const combinedStyles = isClosedOut
+        ? {
+              ...numberStatusStyles.status,
+              ...numberStatusStyles.closed,
+          }
+        : numberStatusStyles.status;
     return (
-        <div className={[classes.status, isClosedOut ? classes.closed : ""].join(" ")}>
+        <Box sx={combinedStyles}>
             {label}
-            {isClosedOut && <div className={classes.crossedOut}>|</div>}
-        </div>
+            {isClosedOut && <Box sx={numberStatusStyles.crossedOut}>|</Box>}
+        </Box>
     );
 };
 
-const useStyles = createUseStyles({
+const scoreboardStyles = {
     row: {
         display: "flex",
         width: "100%",
@@ -222,12 +224,11 @@ const useStyles = createUseStyles({
         textAlign: "center",
         marginTop: "2rem",
     },
-});
+};
 
 const players = ["playerOne", "playerTwo"];
 
 const CricketScoreboard = () => {
-    const classes = useStyles();
     const [tally, setTally] = useState(JSON.parse(JSON.stringify(startingTallyState)));
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
     const handleClickOpen = () => {
@@ -292,7 +293,7 @@ const CricketScoreboard = () => {
                         isClosedOut,
                     };
                     return (
-                        <div key={itemIndex} className={classes.row}>
+                        <Box key={itemIndex} sx={scoreboardStyles.row}>
                             <CustomButtonGroup
                                 color="primary"
                                 {...{
@@ -310,7 +311,7 @@ const CricketScoreboard = () => {
                                     ...commonProps,
                                 }}
                             />
-                        </div>
+                        </Box>
                     );
                 })}
                 <hr />
@@ -320,11 +321,11 @@ const CricketScoreboard = () => {
                     })}
                 </div>
             </Paper>
-            <div className={classes.resetContainer}>
+            <Box sx={scoreboardStyles.resetContainer}>
                 <Button variant="outlined" color="error" onClick={handleClickOpen}>
                     Reset Scoreboard
                 </Button>
-            </div>
+            </Box>
 
             <Dialog open={resetDialogIsOpen} onClose={handleClose}>
                 <DialogTitle>Confirmation</DialogTitle>

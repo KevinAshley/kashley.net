@@ -96,8 +96,8 @@ const Navigator = (props) => {
                     </IconButton>
                 </ListItem>
 
-                {categories.map(({ id, children }) => (
-                    <Box key={id} sx={{ bgcolor: "#101F33" }}>
+                {categories.map(({ id, children }, categoryIndex) => (
+                    <Box key={categoryIndex} sx={{ bgcolor: "#101F33" }}>
                         {id ? (
                             <ListItem sx={{ py: 2, px: 3 }}>
                                 <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>

@@ -4,31 +4,15 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
-import { createUseStyles } from "react-jss";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Input from "@mui/material/Input";
+// import Input from "@mui/material/Input";
 import OutlinedInput from "@mui/material/OutlinedInput";
-
-const useStyles = createUseStyles({
-    paper: {
-        padding: "1rem",
-        maxWidth: "350px",
-        margin: "auto",
-    },
-    displayWindow: {
-        marginBottom: "1rem",
-    },
-    numbers: {
-        flexWrap: "wrap-reverse !important",
-    },
-});
 
 const numKeysArray = new Array(9).fill(0);
 
 const Home = (props) => {
     const { label } = props;
-    const classes = useStyles();
     const [total, setTotal] = useState("0");
     const [operator, setOperator] = useState("");
     const [operand, setOperand] = useState("");
@@ -89,17 +73,31 @@ const Home = (props) => {
                 <meta name="description" content={label} />
             </Helmet>
 
-            <Paper className={classes.paper}>
+            <Paper
+                sx={{
+                    padding: "1rem",
+                    maxWidth: "350px",
+                    margin: "auto",
+                }}
+            >
                 <OutlinedInput
                     // type="number"
                     fullWidth
                     disabled
                     value={operand ? operand : total}
-                    className={classes.displayWindow}
+                    sx={{
+                        marginBottom: "1rem",
+                    }}
                 />
                 <Grid container spacing={1}>
                     <Grid item xs={9}>
-                        <Grid container spacing={1} className={classes.numbers}>
+                        <Grid
+                            container
+                            spacing={1}
+                            sx={{
+                                flexWrap: "wrap-reverse !important",
+                            }}
+                        >
                             <Grid item xs={4}>
                                 <Button
                                     variant="contained"
