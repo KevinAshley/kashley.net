@@ -1,8 +1,6 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
-import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -265,10 +263,6 @@ const CricketScoreboard = () => {
 
     return (
         <div>
-            <Helmet>
-                <title>Home | {companyName}</title>
-                <meta name="description" content="Home Page" />
-            </Helmet>
             <Paper
                 sx={{
                     maxWidth: 400,

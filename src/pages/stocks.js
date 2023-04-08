@@ -1,8 +1,6 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
-import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
 import PaperWrapper from "../components/paperWrapper";
 import Box from "@mui/material/Box";
@@ -57,10 +55,6 @@ const Stocks = () => {
     }, [selected]);
     return (
         <div>
-            <Helmet>
-                <title>Home | {companyName}</title>
-                <meta name="description" content="Home Page" />
-            </Helmet>
             <PaperWrapper>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Age</InputLabel>

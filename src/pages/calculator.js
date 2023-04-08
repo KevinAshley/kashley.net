@@ -1,8 +1,6 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
-import { companyName } from "../vars";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -11,8 +9,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 
 const numKeysArray = new Array(9).fill(0);
 
-const Home = (props) => {
-    const { label } = props;
+const Home = () => {
     const [total, setTotal] = useState("0");
     const [operator, setOperator] = useState("");
     const [operand, setOperand] = useState("");
@@ -62,17 +59,10 @@ const Home = (props) => {
         setOperator(null);
         setOperand(null);
     };
-    console.log(total, operator, operand);
+    // console.log(total, operator, operand);
 
     return (
         <div>
-            <Helmet>
-                <title>
-                    {label} | {companyName}
-                </title>
-                <meta name="description" content={label} />
-            </Helmet>
-
             <Paper
                 sx={{
                     padding: "1rem",

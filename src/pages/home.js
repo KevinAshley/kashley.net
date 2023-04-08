@@ -1,9 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Helmet } from "react-helmet";
-import { companyName } from "../vars";
-import Paper from "@mui/material/Paper";
+// import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 // import Content from "../components/content";
@@ -23,10 +21,6 @@ const Home = () => {
                 textShadow: "0px 0px 5px black",
             }}
         >
-            <Helmet>
-                <title>Home | {companyName}</title>
-                <meta name="description" content="Home Page" />
-            </Helmet>
             <Box
                 sx={{
                     maxWidth: 936,

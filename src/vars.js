@@ -1,3 +1,3 @@
 /** @format */
 
-export const companyName = "kashley.net";
+export const websiteName = "kashley.net";
