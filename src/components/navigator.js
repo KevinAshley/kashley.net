@@ -20,12 +20,13 @@ import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputCompone
 import TimerIcon from "@mui/icons-material/Timer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PhonelinkSetupIcon from "@mui/icons-material/PhonelinkSetup";
-
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 import { mainRoutes, portfolioRoutes } from "../routes";
 
 const categories = [
     {
-        id: "Main",
+        // id: "Main",
         children: [
             // {
             //     id: "Authentication",
@@ -58,6 +59,7 @@ const itemCategory = {
 
 const Navigator = (props) => {
     const { ...other } = props;
+    const { onClose } = props;
     const location = useLocation();
     const { pathname } = location;
 
@@ -66,22 +68,44 @@ const Navigator = (props) => {
             <List disablePadding>
                 <ListItem
                     sx={{
-                        ...item,
-                        ...itemCategory,
+                        // ...item,
+                        // ...itemCategory,
                         fontSize: 22,
                         color: "#fff",
                     }}
                 >
                     Kashley.net
+                    <IconButton
+                        sx={(theme) => {
+                            return {
+                                ml: "auto",
+                                display: "inline-block",
+                                [theme.breakpoints.up("sm")]: {
+                                    display: "none",
+                                },
+                            };
+                        }}
+                        onClick={onClose}
+                    >
+                        <CloseIcon
+                            sx={{
+                                color: "#fff",
+                                fontSize: "1.25rem",
+                            }}
+                        />
+                    </IconButton>
                 </ListItem>
 
                 {categories.map(({ id, children }) => (
                     <Box key={id} sx={{ bgcolor: "#101F33" }}>
-                        <ListItem sx={{ py: 2, px: 3 }}>
-                            <ListItemText sx={{ color: "#fff" }}>
-                                {id}
-                            </ListItemText>
-                        </ListItem>
+                        {id ? (
+                            <ListItem sx={{ py: 2, px: 3 }}>
+                                <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
+                            </ListItem>
+                        ) : (
+                            <Divider sx={{ mb: 2 }} />
+                        )}
+
                         {children.map(({ label: childId, icon, route }) => {
                             const Icon = icon;
                             const active = pathname === route;
