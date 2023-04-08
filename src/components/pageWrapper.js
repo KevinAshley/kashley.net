@@ -8,13 +8,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Navigator from "./navigator";
-import Content from "./content";
+// import Content from "./content";
 import Header from "./header";
 import PageRouter from "./pageRouter";
+import { useLocation } from "react-router-dom";
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="text.secondary" align="center">
+        <Typography variant="body2" color="#fff" align="center">
             {"Copyright © "}
             <Link color="inherit" href="/">
                 Kevin Ashley
@@ -169,9 +170,26 @@ theme = {
 
 const drawerWidth = 256;
 
+const baseStyles = {
+    flex: 1,
+    bgcolor: "#eaeff1",
+};
+
+const useFooterStyles = (theme) => {
+    const { palette } = theme;
+    const { grey } = palette;
+    return { px: 2, py: 1, bgcolor: grey["800"] };
+};
+
 export default function Paperbase() {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
+    const location = useLocation();
+    const { pathname } = location;
+
+    const isHomepage = pathname === "/";
+
+    const mainStyles = isHomepage ? baseStyles : { ...baseStyles, py: 6, px: 2 };
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -181,10 +199,7 @@ export default function Paperbase() {
         <ThemeProvider theme={theme}>
             <Box sx={{ display: "flex", minHeight: "100vh" }}>
                 <CssBaseline />
-                <Box
-                    component="nav"
-                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                >
+                <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
                     {isSmUp ? null : (
                         <Navigator
                             PaperProps={{ style: { width: drawerWidth } }}
@@ -201,13 +216,10 @@ export default function Paperbase() {
                 </Box>
                 <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                     <Header onDrawerToggle={handleDrawerToggle} />
-                    <Box
-                        component="main"
-                        sx={{ flex: 1, py: 6, px: 2, bgcolor: "#eaeff1" }}
-                    >
+                    <Box component="main" sx={mainStyles}>
                         <PageRouter />
                     </Box>
-                    <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
+                    <Box component="footer" sx={useFooterStyles}>
                         <Copyright />
                     </Box>
                 </Box>
