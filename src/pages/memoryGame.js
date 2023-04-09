@@ -28,36 +28,67 @@ import CastleIcon from "@mui/icons-material/Castle";
 const uniqueCardsArray = [
     {
         icon: AcUnitIcon,
+        originalIndex: 0,
     },
     {
         icon: AirportShuttleIcon,
+        originalIndex: 1,
     },
     {
         icon: AnchorIcon,
+        originalIndex: 2,
     },
     {
         icon: BackHandIcon,
+        originalIndex: 3,
     },
     {
         icon: BalanceIcon,
+        originalIndex: 4,
     },
     {
         icon: CastleIcon,
+        originalIndex: 5,
     },
 ];
 
-const cardsArray = [...uniqueCardsArray, ...uniqueCardsArray];
+const combinedCardsArray = [...uniqueCardsArray, ...uniqueCardsArray];
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(4),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
+const cardsArrayWithoutIcons = combinedCardsArray.map((thisCardObject) => {
+    const { originalIndex } = thisCardObject;
+    return {
+        originalIndex,
+        selected: false,
+    };
+});
+
+const Item = (props) => {
+    const { selected, ...otherProps } = props;
+    return (
+        <Paper
+            sx={{
+                // visibility: selected ? "visible" : "hidden",
+                backgroundColor: selected ? "#1A2027" : "#fff",
+                color: selected ? "#fff" : "#1A2027",
+                // ...theme.typography.body2,
+                padding: 4,
+                textAlign: "center",
+            }}
+            {...otherProps}
+        />
+    );
+};
 
 const MemoryGame = () => {
+    const [cards, setCards] = useState(cardsArrayWithoutIcons);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
+    const handleCardClick = (params) => {
+        const { index, originalIndex } = params;
+        const newCards = JSON.parse(JSON.stringify(cards));
+        console.log("hoo", newCards);
+        newCards[index].selected = true;
+        setCards(newCards);
+    };
     const handleClickOpen = () => {
         setResetDialogIsOpen(true);
     };
@@ -72,12 +103,19 @@ const MemoryGame = () => {
     return (
         <Box maxWidth="md" sx={{ margin: "auto" }}>
             <Grid container spacing={2}>
-                {cardsArray.map((thisCard, thisIndex) => {
-                    const Icon = thisCard.icon;
+                {cards.map((thisCard, thisIndex) => {
+                    const { originalIndex, selected } = thisCard;
+                    const Icon = uniqueCardsArray[originalIndex].icon;
+                    const handleThisCardClick = () => {
+                        handleCardClick({ index: thisIndex, originalIndex });
+                    };
                     return (
-                        <Grid item xs={4} md={3} key={thisIndex}>
-                            <Item>
-                                <Icon fontSize="large" />
+                        <Grid item xs={4} md={3} key={thisIndex} onClick={handleThisCardClick}>
+                            <Item {...{ selected }}>
+                                <Icon
+                                    fontSize="large"
+                                    sx={{ visibility: selected ? "visible" : "hidden" }}
+                                />
                             </Item>
                         </Grid>
                     );
