@@ -14,14 +14,13 @@ const PageRouter = () => {
                     const PageComponent = component;
                     return (
                         <Route
-                            exact
                             key={index}
                             path={item.route}
                             element={<PageComponent {...{ label }} />}
                         />
                     );
                 })}
-                <Route element={<PageNotFound />} />
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
         </Fragment>
     );

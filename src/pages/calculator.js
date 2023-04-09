@@ -9,7 +9,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 
 const numKeysArray = new Array(9).fill(0);
 
-const Home = () => {
+const Calculator = () => {
     const [total, setTotal] = useState("0");
     const [operator, setOperator] = useState("");
     const [operand, setOperand] = useState("");
@@ -160,4 +160,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Calculator;
