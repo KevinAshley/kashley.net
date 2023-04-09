@@ -27,11 +27,12 @@ const Home = () => {
                     color: "#fff",
                     backgroundImage: `linear-gradient(0deg, ${backgroundGradient}, ${backgroundGradient}), url(/images/pexels-photo-12027143-cropped.jpg)`,
                     width: "100%",
-                    minHeight: "30vh",
+                    minHeight: "28vw",
                     backgroundSize: "cover",
                     backgroundPosition: "bottom",
                     padding: "2rem",
                     textShadow: "0px 0px 5px black",
+                    display: "flex",
                 }}
             >
                 <Box
@@ -49,6 +50,10 @@ const Home = () => {
                             textAlign: "center",
                             mt: 5,
                             mb: 0.5,
+                            fontSize: {
+                                xs: "2rem",
+                                lg: "3rem",
+                            },
                         }}
                     >
                         Kevin Ashley
