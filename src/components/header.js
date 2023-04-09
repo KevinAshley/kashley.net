@@ -17,6 +17,7 @@ import Toolbar from "@mui/material/Toolbar";
 // import Tooltip from "@mui/material/Tooltip";
 // import Typography from "@mui/material/Typography";
 // import { usePageName } from "../hooks";
+import { websiteName } from "../vars";
 
 // const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -38,6 +39,17 @@ function Header(props) {
                             >
                                 <MenuIcon />
                             </IconButton>
+                        </Grid>
+                        <Grid
+                            sx={{
+                                display: {
+                                    textTransform: "uppercase",
+                                    fontFamily: "cursive",
+                                },
+                            }}
+                            item
+                        >
+                            {websiteName}
                         </Grid>
                         <Grid item xs />
                         <Grid item>
