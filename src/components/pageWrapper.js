@@ -1,7 +1,7 @@
 /** @format */
 
 import * as React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
+// import useMediaQuery from "@mui/material/useMediaQuery";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,6 @@ import Navigator from "./navigator";
 import Header from "./header";
 import PageRouter from "./pageRouter";
 import { useLocation } from "react-router-dom";
-import { theme as globalTheme } from "./themeProvider";
 import PageTitle from "./pageTitle";
 
 function Copyright() {
@@ -41,7 +40,6 @@ const useFooterStyles = (theme) => {
 
 export default function Paperbase() {
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const isSmUp = useMediaQuery(globalTheme.breakpoints.up("sm"));
     const location = useLocation();
     const { pathname } = location;
 
@@ -56,19 +54,12 @@ export default function Paperbase() {
     return (
         <Box sx={{ display: "flex", minHeight: "100vh" }}>
             <CssBaseline />
-            <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-                {isSmUp ? null : (
-                    <Navigator
-                        PaperProps={{ style: { width: drawerWidth } }}
-                        variant="temporary"
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                    />
-                )}
-
+            <Box component="nav">
                 <Navigator
                     PaperProps={{ style: { width: drawerWidth } }}
-                    sx={{ display: { sm: "block", xs: "none" } }}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
                 />
             </Box>
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>

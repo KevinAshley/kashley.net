@@ -41,11 +41,11 @@ const item = {
     },
 };
 
-const itemCategory = {
-    boxShadow: "0 -1px 0 rgb(255,255,255,0.1) inset",
-    py: 1.5,
-    px: 3,
-};
+// const itemCategory = {
+//     boxShadow: "0 -1px 0 rgb(255,255,255,0.1) inset",
+//     py: 1.5,
+//     px: 3,
+// };
 
 const Navigator = (props) => {
     const { ...other } = props;
@@ -58,22 +58,17 @@ const Navigator = (props) => {
             <List disablePadding>
                 <ListItem
                     sx={{
-                        // ...item,
-                        // ...itemCategory,
-                        fontSize: 22,
                         color: "#fff",
+                        pt: "10px",
+                        pb: "10px",
+                        pr: "1rem",
                     }}
                 >
-                    <Box>&nbsp;</Box>
                     <IconButton
-                        sx={(theme) => {
-                            return {
-                                ml: "auto",
-                                display: "inline-block",
-                                [theme.breakpoints.up("sm")]: {
-                                    display: "none",
-                                },
-                            };
+                        sx={{
+                            ml: "auto",
+                            display: "inline-block",
+                            lineHeight: 0,
                         }}
                         onClick={onClose}
                     >
@@ -106,6 +101,7 @@ const Navigator = (props) => {
                                         sx={item}
                                         component={Link}
                                         to={route}
+                                        onClick={onClose}
                                     >
                                         <ListItemIcon>
                                             <Icon />
