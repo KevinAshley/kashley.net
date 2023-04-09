@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 // import Input from "@mui/material/Input";
 import OutlinedInput from "@mui/material/OutlinedInput";
-
+import GithubLinkout from "../components/githubLinkout";
 const numKeysArray = new Array(9).fill(0);
 
 const Calculator = () => {
@@ -63,6 +63,7 @@ const Calculator = () => {
 
     return (
         <div>
+            <GithubLinkout />
             <Paper
                 sx={{
                     padding: "1rem",

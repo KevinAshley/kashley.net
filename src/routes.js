@@ -3,12 +3,12 @@
 import { loadableOptions, handleImportError } from "./utils";
 import loadable from "@loadable/component";
 import HomeIcon from "@mui/icons-material/Home";
-import MailIcon from "@mui/icons-material/Mail";
+// import MailIcon from "@mui/icons-material/Mail";
 import CalculateIcon from "@mui/icons-material/Calculate";
 
 const Home = loadable(() => import("./pages/home"), loadableOptions);
 const CricketScoreboard = loadable(() => import("./pages/cricketScoreboard"), loadableOptions);
-const Stocks = loadable(() => import("./pages/stocks"), loadableOptions);
+// const Stocks = loadable(() => import("./pages/stocks"), loadableOptions);
 const Calculator = loadable(() => import("./pages/calculator"), loadableOptions);
 
 export const mainRoutes = [
@@ -32,12 +32,14 @@ export const portfolioRoutes = [
         component: Calculator,
         route: "/calculator/",
         icon: CalculateIcon,
+        github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/calculator.js",
     },
     {
         label: "Cricket Scoreboard",
         component: CricketScoreboard,
         route: "/cricket-scoreboard/",
         icon: HomeIcon,
+        github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/cricketScoreboard.js",
     },
     // {
     //     label: "Stocks",

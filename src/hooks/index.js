@@ -13,3 +13,15 @@ export const usePageName = () => {
     });
     return pageName;
 };
+
+export const usePageGithub = () => {
+    const location = useLocation();
+    const { pathname } = location;
+    var github = "";
+    routes.forEach((page) => {
+        if (pathname === page.route) {
+            github = page.github;
+        }
+    });
+    return github;
+};
