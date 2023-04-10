@@ -49,8 +49,8 @@ function Header(props) {
                         <Grid
                             sx={{
                                 display: {
-                                    textTransform: "uppercase",
-                                    fontFamily: "cursive",
+                                    // textTransform: "uppercase",
+                                    fontFamily: "monospace",
                                 },
                             }}
                             item
