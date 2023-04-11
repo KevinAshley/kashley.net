@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -64,13 +64,14 @@ const cardsArrayWithoutIcons = combinedCardsArray.map((thisCardObject) => {
 });
 
 const Item = (props) => {
-    const { selected, matched, ...otherProps } = props;
+    const { selected, matched, isFlashing, ...otherProps } = props;
     return (
         <Paper
             sx={{
                 // visibility: selected ? "visible" : "hidden",
-                backgroundColor: selected ? "#1A2027" : matched ? "rgba(0,0,0,0)" : "#fff",
-                color: selected ? "#fff" : "#1A2027",
+                backgroundColor:
+                    isFlashing || selected ? "#1A2027" : matched ? "rgba(0,0,0,0)" : "#fff",
+                color: isFlashing || selected ? "#fff" : "#1A2027",
                 // ...theme.typography.body2,
                 padding: 4,
                 textAlign: "center",
@@ -89,6 +90,7 @@ const findSelectedIndex = (cards) => {
 
 const MemoryGame = () => {
     const [cards, setCards] = useState(cardsArrayWithoutIcons);
+    const [flashing, setFlashing] = useState([]);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
     const handleCardClick = (params) => {
         const { index } = params;
@@ -101,16 +103,19 @@ const MemoryGame = () => {
         if (selectedCardIndex === -1) {
             /// make a selection
             newCards[index].selected = true;
-        } else if (
-            selectedCardIndex !== index &&
-            thisCard.originalIndex === selectedCard.originalIndex
-        ) {
+        } else if (selectedCardIndex === index) {
+            /// undo selection
+            newCards[selectedCardIndex].selected = false;
+        } else if (thisCard.originalIndex === selectedCard.originalIndex) {
+            /// correct selection
             newCards[selectedCardIndex].selected = false;
             newCards[selectedCardIndex].matched = true;
             newCards[index].matched = true;
+            flashCardsByIndex([selectedCardIndex, index]);
         } else {
-            /// undo selection
+            /// wrong selection
             newCards[selectedCardIndex].selected = false;
+            flashCardsByIndex([selectedCardIndex, index]);
         }
 
         setCards(newCards);
@@ -121,16 +126,33 @@ const MemoryGame = () => {
     const handleClose = () => {
         setResetDialogIsOpen(false);
     };
+    const resetAll = () => {
+        setCards(cardsArrayWithoutIcons);
+    };
 
     const handleResetAndClose = () => {
         // setTally(JSON.parse(JSON.stringify(startingTallyState)));
         setResetDialogIsOpen(false);
+        resetAll();
     };
+    const flashCardsByIndex = (indexes = []) => {
+        setFlashing(indexes);
+    };
+    useEffect(() => {
+        if (flashing.length) {
+            setTimeout(() => {
+                setFlashing([]);
+            }, 500);
+        }
+    }, [flashing]);
+
+    // console.log("cards, flashing", cards, flashing);
     return (
         <Box maxWidth="md" sx={{ margin: "auto" }}>
             <Grid container spacing={2}>
                 {cards.map((thisCard, thisIndex) => {
                     const { originalIndex, selected, matched } = thisCard;
+                    const isFlashing = flashing.includes(thisIndex);
                     const Icon = uniqueCardsArray[originalIndex].icon;
                     const handleThisCardClick = () => {
                         handleCardClick({ index: thisIndex, originalIndex });
@@ -143,11 +165,12 @@ const MemoryGame = () => {
                             key={thisIndex}
                             onClick={!matched ? handleThisCardClick : undefined}
                         >
-                            <Item {...{ selected, matched }}>
+                            <Item {...{ selected, matched, isFlashing }}>
                                 <Icon
                                     fontSize="large"
                                     sx={{
-                                        visibility: selected || matched ? "visible" : "hidden",
+                                        visibility:
+                                            selected || matched || isFlashing ? "auto" : "hidden",
                                     }}
                                 />
                             </Item>
