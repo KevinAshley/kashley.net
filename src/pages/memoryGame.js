@@ -13,6 +13,7 @@ import { styled } from "@mui/material/styles";
 // import AddIcon from "@mui/icons-material/Add";
 // import RemoveIcon from "@mui/icons-material/Remove";
 // import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
+import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -92,6 +93,7 @@ const MemoryGame = () => {
     const [cards, setCards] = useState(cardsArrayWithoutIcons);
     const [flashing, setFlashing] = useState([]);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
+    const [movesCount, setMovesCount] = useState(0);
     const handleCardClick = (params) => {
         const { index } = params;
         const newCards = JSON.parse(JSON.stringify(cards));
@@ -112,12 +114,13 @@ const MemoryGame = () => {
             newCards[selectedCardIndex].matched = true;
             newCards[index].matched = true;
             flashCardsByIndex([selectedCardIndex, index]);
+            setMovesCount(movesCount + 1);
         } else {
             /// wrong selection
             newCards[selectedCardIndex].selected = false;
             flashCardsByIndex([selectedCardIndex, index]);
+            setMovesCount(movesCount + 1);
         }
-
         setCards(newCards);
     };
     const handleClickOpen = () => {
@@ -128,6 +131,7 @@ const MemoryGame = () => {
     };
     const resetAll = () => {
         setCards(cardsArrayWithoutIcons);
+        setMovesCount(0);
     };
 
     const handleResetAndClose = () => {
@@ -178,7 +182,13 @@ const MemoryGame = () => {
                     );
                 })}
             </Grid>
-            <Box sx={{ textAlign: "center", mt: 3 }}>
+            <Box sx={{ textAlign: "center", mt: 3, mb: 5 }}>
+                <Box sx={{ textAlign: "center", fontSize: "4rem" }}>{movesCount}</Box>
+                <Typography variant="h3" align="center" sx={{ fontSize: "1rem" }}>
+                    MOVES
+                </Typography>
+            </Box>
+            <Box sx={{ textAlign: "center" }}>
                 <Button variant="outlined" color="error" onClick={handleClickOpen}>
                     Reset Game
                 </Button>
