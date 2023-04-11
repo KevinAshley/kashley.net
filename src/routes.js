@@ -43,13 +43,13 @@ export const portfolioRoutes = [
         icon: ScoreboardIcon,
         github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/cricketScoreboard.js",
     },
-    // {
-    //     label: "Memory Game",
-    //     component: MemoryGame,
-    //     route: "/memory-game/",
-    //     icon: PsychologyAltIcon,
-    //     github: "",
-    // },
+    {
+        label: "Memory Game",
+        component: MemoryGame,
+        route: "/memory-game/",
+        icon: PsychologyAltIcon,
+        github: "",
+    },
     // {
     //     label: "Stocks",
     //     component: Stocks,

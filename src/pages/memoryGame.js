@@ -59,34 +59,60 @@ const cardsArrayWithoutIcons = combinedCardsArray.map((thisCardObject) => {
     return {
         originalIndex,
         selected: false,
+        matched: false,
     };
 });
 
 const Item = (props) => {
-    const { selected, ...otherProps } = props;
+    const { selected, matched, ...otherProps } = props;
     return (
         <Paper
             sx={{
                 // visibility: selected ? "visible" : "hidden",
-                backgroundColor: selected ? "#1A2027" : "#fff",
+                backgroundColor: selected ? "#1A2027" : matched ? "rgba(0,0,0,0)" : "#fff",
                 color: selected ? "#fff" : "#1A2027",
                 // ...theme.typography.body2,
                 padding: 4,
                 textAlign: "center",
+                cursor: matched ? "auto" : "pointer",
             }}
+            elevation={matched ? 0 : 1}
             {...otherProps}
         />
     );
+};
+
+const findSelectedIndex = (cards) => {
+    const selectedCardIndex = cards.findIndex((card) => card.selected);
+    return selectedCardIndex;
 };
 
 const MemoryGame = () => {
     const [cards, setCards] = useState(cardsArrayWithoutIcons);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
     const handleCardClick = (params) => {
-        const { index, originalIndex } = params;
+        const { index } = params;
         const newCards = JSON.parse(JSON.stringify(cards));
-        console.log("hoo", newCards);
-        newCards[index].selected = true;
+        const thisCard = newCards[index];
+        const selectedCardIndex = findSelectedIndex(newCards);
+        const selectedCard = newCards[selectedCardIndex];
+
+        // console.log("hoo", selectedCardIndex);
+        if (selectedCardIndex === -1) {
+            /// make a selection
+            newCards[index].selected = true;
+        } else if (
+            selectedCardIndex !== index &&
+            thisCard.originalIndex === selectedCard.originalIndex
+        ) {
+            newCards[selectedCardIndex].selected = false;
+            newCards[selectedCardIndex].matched = true;
+            newCards[index].matched = true;
+        } else {
+            /// undo selection
+            newCards[selectedCardIndex].selected = false;
+        }
+
         setCards(newCards);
     };
     const handleClickOpen = () => {
@@ -104,17 +130,25 @@ const MemoryGame = () => {
         <Box maxWidth="md" sx={{ margin: "auto" }}>
             <Grid container spacing={2}>
                 {cards.map((thisCard, thisIndex) => {
-                    const { originalIndex, selected } = thisCard;
+                    const { originalIndex, selected, matched } = thisCard;
                     const Icon = uniqueCardsArray[originalIndex].icon;
                     const handleThisCardClick = () => {
                         handleCardClick({ index: thisIndex, originalIndex });
                     };
                     return (
-                        <Grid item xs={4} md={3} key={thisIndex} onClick={handleThisCardClick}>
-                            <Item {...{ selected }}>
+                        <Grid
+                            item
+                            xs={4}
+                            md={3}
+                            key={thisIndex}
+                            onClick={!matched ? handleThisCardClick : undefined}
+                        >
+                            <Item {...{ selected, matched }}>
                                 <Icon
                                     fontSize="large"
-                                    sx={{ visibility: selected ? "visible" : "hidden" }}
+                                    sx={{
+                                        visibility: selected || matched ? "visible" : "hidden",
+                                    }}
                                 />
                             </Item>
                         </Grid>
