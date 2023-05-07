@@ -6,9 +6,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 // import Input from "@mui/material/Input";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import GithubLinkout from "../components/githubLinkout";
-import { styled } from "@mui/material/styles";
 // import ButtonGroup from "@mui/material/ButtonGroup";
 // import AddIcon from "@mui/icons-material/Add";
 // import RemoveIcon from "@mui/icons-material/Remove";
@@ -94,6 +91,7 @@ const MemoryGame = () => {
     const [flashing, setFlashing] = useState([]);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
     const [movesCount, setMovesCount] = useState(0);
+    const [winnerDialogOpen, setWinnerDialogOpen] = useState(false);
     const handleCardClick = (params) => {
         const { index } = params;
         const newCards = JSON.parse(JSON.stringify(cards));
@@ -132,6 +130,7 @@ const MemoryGame = () => {
     const resetAll = () => {
         setCards(cardsArrayWithoutIcons);
         setMovesCount(0);
+        setWinnerDialogOpen(false);
     };
 
     const handleResetAndClose = () => {
@@ -150,7 +149,25 @@ const MemoryGame = () => {
         }
     }, [flashing]);
 
-    // console.log("cards, flashing", cards, flashing);
+    const matchedCards = cards.filter((card) => {
+        return card.matched;
+    });
+
+    const winner = cards.length === matchedCards.length;
+
+    useEffect(() => {
+        if (winner) {
+            setWinnerDialogOpen(true);
+        }
+    }, [winner]);
+
+    const toggleWinnerDialog = (props) => {
+        setWinnerDialogOpen(false);
+    };
+
+    // console.log("cards", cards);
+    // console.log("cardsMatched", matchedCards);
+
     return (
         <Box maxWidth="md" sx={{ margin: "auto" }}>
             <Grid container spacing={2}>
@@ -204,6 +221,27 @@ const MemoryGame = () => {
                     <Button onClick={handleResetAndClose} variant="contained">
                         Yes
                     </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={winnerDialogOpen} onClose={toggleWinnerDialog}>
+                <DialogTitle>You Won!</DialogTitle>
+                <Box
+                    sx={{
+                        fontSize: "6rem",
+                        textAlign: "center",
+                    }}
+                >
+                    🎉
+                </Box>
+                <DialogContent>
+                    <DialogContentText>
+                        Wow, in only {movesCount} moves - great job!
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={toggleWinnerDialog}>Close</Button>
+                    <Button onClick={handleResetAndClose}>Play Again</Button>
                 </DialogActions>
             </Dialog>
         </Box>
