@@ -3,7 +3,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
+// import Avatar from "@mui/material/Avatar";
 // import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 // import HelpIcon from "@mui/icons-material/Help";
@@ -18,7 +18,7 @@ import Toolbar from "@mui/material/Toolbar";
 // import Typography from "@mui/material/Typography";
 // import { usePageName } from "../hooks";
 import { websiteName } from "../vars";
-
+import LoginAvatar from "./loginAvatar";
 // const lightColor = "rgba(255, 255, 255, 0.7)";
 
 function Header(props) {
@@ -59,9 +59,7 @@ function Header(props) {
                         </Grid>
                         <Grid item xs />
                         <Grid item>
-                            <IconButton color="inherit" sx={{ p: 0.5 }}>
-                                <Avatar></Avatar>
-                            </IconButton>
+                            <LoginAvatar />
                         </Grid>
                     </Grid>
                 </Toolbar>
