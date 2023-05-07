@@ -48,7 +48,7 @@ export const portfolioRoutes = [
         component: MemoryGame,
         route: "/memory-game/",
         icon: PsychologyAltIcon,
-        github: "",
+        github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/memoryGame.js",
     },
     // {
     //     label: "Stocks",

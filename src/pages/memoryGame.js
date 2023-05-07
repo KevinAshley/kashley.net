@@ -22,6 +22,7 @@ import AnchorIcon from "@mui/icons-material/Anchor";
 import BackHandIcon from "@mui/icons-material/BackHand";
 import BalanceIcon from "@mui/icons-material/Balance";
 import CastleIcon from "@mui/icons-material/Castle";
+import GithubLinkout from "../components/githubLinkout";
 // const cardsArray = new Array(12).fill(0);
 const uniqueCardsArray = [
     {
@@ -178,6 +179,7 @@ const MemoryGame = () => {
 
     return (
         <Box maxWidth="md" sx={{ margin: "auto" }}>
+            <GithubLinkout />
             <Grid container spacing={2}>
                 {cards.map((thisCard, thisIndex) => {
                     const { originalIndex, selected, matched } = thisCard;
