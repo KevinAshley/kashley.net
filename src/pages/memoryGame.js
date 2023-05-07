@@ -86,8 +86,16 @@ const findSelectedIndex = (cards) => {
     return selectedCardIndex;
 };
 
+const shuffleArray = (originalArray) => {
+    const shuffledArray = originalArray
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+    return shuffledArray;
+};
+
 const MemoryGame = () => {
-    const [cards, setCards] = useState(cardsArrayWithoutIcons);
+    const [cards, setCards] = useState(shuffleArray(cardsArrayWithoutIcons));
     const [flashing, setFlashing] = useState([]);
     const [resetDialogIsOpen, setResetDialogIsOpen] = useState(false);
     const [movesCount, setMovesCount] = useState(0);
@@ -128,7 +136,7 @@ const MemoryGame = () => {
         setResetDialogIsOpen(false);
     };
     const resetAll = () => {
-        setCards(cardsArrayWithoutIcons);
+        setCards(shuffleArray(cardsArrayWithoutIcons));
         setMovesCount(0);
         setWinnerDialogOpen(false);
     };
