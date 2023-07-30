@@ -1,6 +1,6 @@
 /** @format */
 
-import * as React from "react";
+import React, { Fragment } from "react";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -29,6 +29,7 @@ const categories = [
     {
         id: "Portfolio",
         children: [...portfolioRoutes],
+        href: "/portfolio/",
     },
 ];
 
@@ -81,19 +82,29 @@ const Navigator = (props) => {
                     </IconButton>
                 </ListItem>
 
-                {categories.map(({ id, children }, categoryIndex) => (
+                {categories.map(({ id, children, href }, categoryIndex) => (
                     <Box key={categoryIndex} sx={{ bgcolor: "#101F33" }}>
                         {id ? (
                             <ListItem sx={{ py: 2, px: 3 }}>
-                                <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
+                                <ListItemButton
+                                    component={Link}
+                                    to={href}
+                                    onClick={onClose}
+                                    sx={{ color: "#fff", padding: 0, fontSize: "14px" }}
+                                >
+                                    {id}
+                                </ListItemButton>
                             </ListItem>
                         ) : (
                             <Divider sx={{ mb: 2 }} />
                         )}
 
-                        {children.map(({ label: childId, icon, route }) => {
+                        {children.map(({ label: childId, icon, route, suppress = false }) => {
                             const Icon = icon;
                             const active = pathname === route;
+                            if (suppress) {
+                                return <Fragment key={childId}></Fragment>;
+                            }
                             return (
                                 <ListItem disablePadding key={childId}>
                                     <ListItemButton

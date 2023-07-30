@@ -12,6 +12,7 @@ const CricketScoreboard = loadable(() => import("./pages/cricketScoreboard"), lo
 // const Stocks = loadable(() => import("./pages/stocks"), loadableOptions);
 const Calculator = loadable(() => import("./pages/calculator"), loadableOptions);
 const MemoryGame = loadable(() => import("./pages/memoryGame"), loadableOptions);
+const Portfolio = loadable(() => import("./pages/portfolio"), loadableOptions);
 
 export const mainRoutes = [
     {
@@ -20,12 +21,13 @@ export const mainRoutes = [
         route: "/",
         icon: HomeIcon,
     },
-    // {
-    //     label: "Contact Me",
-    //     component: Home,
-    //     route: "/contact-me/",
-    //     icon: MailIcon,
-    // },
+    {
+        label: "Portfolio",
+        component: Portfolio,
+        route: "/portfolio/",
+        icon: HomeIcon,
+        suppress: true,
+    },
 ];
 
 export const portfolioRoutes = [
@@ -35,6 +37,7 @@ export const portfolioRoutes = [
         route: "/calculator/",
         icon: CalculateIcon,
         github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/calculator.js",
+        description: "Basic mathematical calculator for quick calculations",
     },
     {
         label: "Cricket Scoreboard",
@@ -42,6 +45,7 @@ export const portfolioRoutes = [
         route: "/cricket-scoreboard/",
         icon: ScoreboardIcon,
         github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/cricketScoreboard.js",
+        description: "Scoreboard for the popular dart game known as 'Cricket'",
     },
     {
         label: "Memory Game",
@@ -49,6 +53,7 @@ export const portfolioRoutes = [
         route: "/memory-game/",
         icon: PsychologyAltIcon,
         github: "https://github.com/KevinAshley/kashley.net/blob/main/src/pages/memoryGame.js",
+        description: "Test your memory with this card matching game",
     },
     // {
     //     label: "Stocks",

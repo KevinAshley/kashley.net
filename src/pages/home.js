@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 // import Content from "../components/content";
 import { ReactLogo, MuiLogo, FirebaseLogo } from "../components/logos";
 import Link from "@mui/material/Link";
-
+import RoutedLink from "../components/routedLink";
 const backgroundGradient = "rgba(0,0,0,0.7)";
 
 const makeRibbonStyles = (theme) => {
@@ -69,9 +69,9 @@ const Home = () => {
                         Sacramento, CA
                     </Typography>
                     <p>
-                        Thanks for visiting my website. Check out my portfolio entries for examples
-                        of my work. All of the code for this website is available to review at
-                        github.
+                        Thanks for visiting my website. Check out my{" "}
+                        <RoutedLink href="/portfolio/">portfolio</RoutedLink> for examples of my
+                        work. All of the code for this website is available to review at github.
                     </p>
                     <Box sx={{ mb: 5 }}>
                         {" "}
