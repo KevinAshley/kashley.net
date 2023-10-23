@@ -110,20 +110,6 @@ const Home = () => {
                 This website was built with React.js, Material UI components, and&nbsp;Firebase
                 hosting.
             </Typography>
-            <Box sx={{ padding: "2rem", textAlign: "center" }}>
-                <p>Looking for more examples of my work?</p>
-                <p>
-                    Check out these sites:
-                    <br />
-                    <Link href={"https://www.salescricket.com/"} target="_blank">
-                        www.salescricket.com
-                    </Link>
-                    <br />
-                    <Link href={"https://www.ihouseweb.com/"} target="_blank">
-                        www.ihouseweb.com
-                    </Link>
-                </p>
-            </Box>
         </Fragment>
     );
 };
